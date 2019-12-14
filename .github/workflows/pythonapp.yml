@@ -27,4 +27,4 @@ jobs:
     - name: Test with pytest
       run: |
         pip install pytest
-        pytest -vs .github/workflows/tests/empty_test.py
+        pytest -vs .github/workflows/tests/test.py
