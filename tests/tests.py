@@ -1,4 +1,6 @@
 import pytest
 from graphStructure.graph import Graph
 def test_graph():
-    pass
+    # Load Graph
+    path = 'exampleGraphs/exampleGraph.yaml'
+    graph = Graph(path)
