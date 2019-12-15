@@ -5,11 +5,13 @@ from algorithms.hillClimbSolver import HillClimbSolver
 from algorithms.tabuSolver import TabuSolver
 from debugging.algorithmPlot import *
 from debugging.graphPlot import *
+from experiments.experiment import *
 class CommandHandler():
     def __init__(self):
         self.graph = None
         self.solution = None
         self.solver = None
+        self.experiment = None
 
     def state(self):
         print('graph:    {}'.format(self.graph))
@@ -36,6 +38,7 @@ class CommandHandler():
         commands = [
             '--help                         Lists Available Commands',
             'load_graph=Path                Load Graph from path',
+            '   --graph-show                    Displays Graph'
             'load_solution=Path             Load Solution from path',
             '   --solution-plotHistory          Plots Matlab History',
             '   --solution-bestGraph            Prints Best Graph',
@@ -56,6 +59,12 @@ class CommandHandler():
         except (FileNotFoundError):
             print('Couldnt load a file - typo? | file: {}'.format(path))
 
+    def showGraph(self):
+        if(self.graph == None):
+            print('setup graph before displaying it')
+        else:
+            plotGraph(self.graph)
+
     def loadSolution(self, path):
         # Load Solution from File
         self.solution = loadSolution(path)
@@ -73,7 +82,6 @@ class CommandHandler():
                 self.solver = TabuSolver(self.graph, tabuSize, iterations)
             elif(solver == 'Tabu'):
                 self.solver = TabuSolver(self.graph)
-
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():
@@ -103,6 +111,17 @@ class CommandHandler():
             print('couldnt save solver: solver is not defined')
         else:
             self.solverSave(name)
+
+    def performExperiment(self, iterations, size, solver):
+        self.experiment = Experiment(iterations, size, solver)
+
+    def saveExperiment(self, file):
+        self.experiment.saveStatistics(file)
+
+    def displayExperiment(self):
+        self.experiment.displayStatistics()
+
+
 
 
 

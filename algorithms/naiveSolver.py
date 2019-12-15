@@ -1,16 +1,20 @@
 from algorithms.goalFunction import *
 from utilities.arrayFunctions import *
+from utilities.timer import *
 from graphStructure.graph import *
 from utilities.graphFunctions import *
+import time
 class NaiveSolver():
     def __init__(self, graph):
+        self.type = 'Naive'
         self.history = []
         self.bestGraph = Graph()
-        self.score = 999999
+        self.score = 999999 
         self.__run(graph)
 
     def __run(self, graph):
         import copy
+        start = time.time()
         '''
         A simple alghorithm that just goes through all nodes and increments colors on them
         until all node reach the color limit:
@@ -34,6 +38,9 @@ class NaiveSolver():
             self.history.append(score)
             if(score<self.score):
                 self.score, self.bestGraph = score, copy.deepcopy(graph)
+
+        end = time.time()
+        self.time = end - start
 
     def saveToFile(self, path):
         import pickle

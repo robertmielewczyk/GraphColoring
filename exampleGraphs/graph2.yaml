@@ -1,0 +1,3 @@
+nodes: 2
+connections: {0: [1], 1: [0]}
+colors: {0: 0, 1: 0}
