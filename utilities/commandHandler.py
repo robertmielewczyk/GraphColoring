@@ -2,6 +2,7 @@ from graphStructure.graph import Graph
 from utilities.graphFunctions import *
 from algorithms.naiveSolver import NaiveSolver
 from algorithms.hillClimbSolver import HillClimbSolver
+from algorithms.tabuSolver import TabuSolver
 from debugging.algorithmPlot import *
 from debugging.graphPlot import *
 class CommandHandler():
@@ -39,11 +40,12 @@ class CommandHandler():
             '   --solution-plotHistory          Plots Matlab History',
             '   --solution-bestGraph            Prints Best Graph',
             '   --solution-score                Prints Best Score',
-            'solver=Name                    Run Solver(Naive, HillClimb)',
+            'solver=Name[size][iter]        Run Solver(Naive, HillClimb, Tabu)',
             '   --solver-plotHistory            Plots Matlab History',
             '   --solver-bestGraph              Prints Best Graph',
             '   --solver-score                  Prints Best Score',   
-            '   --solver-save=Name              Saves solution'
+            '   --solver-save=Name              Saves solution',
+            ' '
             ]
         for command in commands:
             print(command)
@@ -64,9 +66,17 @@ class CommandHandler():
                 self.solver = NaiveSolver(self.graph)
             elif(solver == 'HillClimb'):
                 self.solver = HillClimbSolver(self.graph)
+            elif('Tabu[' in solver):
+                solver = (solver[5:].replace(']','')).split(',')
+                tabuSize = int(solver[0])
+                iterations = int(solver[1])
+                self.solver = TabuSolver(self.graph, tabuSize, iterations)
+            elif(solver == 'Tabu'):
+                self.solver = TabuSolver(self.graph)
+
             else:
                 print('This Solver Doesnt Exist - Typo')
-        except (SyntaxError, AttributeError):
+        except (AttributeError):
             print("Solver Error - Probably Graph is not set | graph: {}".format(self.graph))
 
     def solverPlotHistory(self):
@@ -93,6 +103,7 @@ class CommandHandler():
             print('couldnt save solver: solver is not defined')
         else:
             self.solverSave(name)
+
 
 
 

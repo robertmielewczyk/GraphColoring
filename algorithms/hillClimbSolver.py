@@ -12,6 +12,7 @@ class HillClimbSolver():
         self.run(graph, self.mask)
 
     def run(self, graph, mask):
+        # Generate near neighbours +1 -1 (in future update with grasp)
         neighbourSet = generateNeigboursSet(graph, mask)
 
         # Apply Mask Check Score

@@ -34,6 +34,11 @@ for arg in sys.argv:
         handler.loadSolution(path)
 
     if('solver=' in arg):
+        if('solver=Tabu['):
+            solver = arg[7:]
+            handler.loadSolver(solver)
+            continue
+
         solver = arg[7:]
         handler.loadSolver(solver)
 
