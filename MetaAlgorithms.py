@@ -57,6 +57,28 @@ for arg in sys.argv:
     if(re.search('--solver-save=*', arg)):
         name = arg[14:]
         handler.solverSave(name)
+
+    if('--experiment' in arg):
+        if('--experiment-save=' in arg):
+            file = arg[18:]
+            print(file)
+            handler.saveExperiment(file)
+            continue
+        if('--experiment-display' in arg):
+            handler.displayExperiment()
+            continue
+        print('EXPERIMENTS:\n--Set Parameters--\nIterations:')
+        iterations = input()
+        iterations = int(iterations)
+        print("Size:")
+        size= input()
+        size = int(size)
+        if(size>9 or size<2):
+            size=9
+        print("Solver: - must be: Naive/HillClimb/Tabu[TabuSize,Iterations]")
+        solver = input()
+        handler.performExperiment(iterations, size, solver)
+
     
 
 

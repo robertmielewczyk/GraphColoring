@@ -1,10 +1,13 @@
 from utilities.graphFunctions import *
 from utilities.arrayFunctions import *
+from utilities.timer import *
 from algorithms.goalFunction import *
 from graphStructure.graph import *
 import copy
+import time
 class TabuSolver():
     def __init__(self, graph, tabuSize=5, iterations=1000):
+        self.type = 'Tabu'
         self.history = []
         self.bestGraph = Graph()
         self.score = 999999
@@ -12,6 +15,7 @@ class TabuSolver():
         self.run(graph, tabuSize, iterations)
 
     def run(self, graph, tabuSize, iterations):
+        start = time.time()
         # Tabu setup
         # Generate random solution
         bestMask = self.mask
@@ -48,6 +52,9 @@ class TabuSolver():
         #self.mask is the best output
         self.bestGraph = applyMask(graph, self.mask)
         self.score = goalFunction(self.bestGraph)
+
+        end = time.time()
+        self.time = end - start
 
 
                 

@@ -5,11 +5,13 @@ from algorithms.hillClimbSolver import HillClimbSolver
 from algorithms.tabuSolver import TabuSolver
 from debugging.algorithmPlot import *
 from debugging.graphPlot import *
+from experiments.experiment import *
 class CommandHandler():
     def __init__(self):
         self.graph = None
         self.solution = None
         self.solver = None
+        self.experiment = None
 
     def state(self):
         print('graph:    {}'.format(self.graph))
@@ -109,6 +111,17 @@ class CommandHandler():
             print('couldnt save solver: solver is not defined')
         else:
             self.solverSave(name)
+
+    def performExperiment(self, iterations, size, solver):
+        self.experiment = Experiment(iterations, size, solver)
+
+    def saveExperiment(self, file):
+        self.experiment.saveStatistics(file)
+
+    def displayExperiment(self):
+        self.experiment.displayStatistics()
+
+
 
 
 
