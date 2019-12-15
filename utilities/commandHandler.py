@@ -36,6 +36,7 @@ class CommandHandler():
         commands = [
             '--help                         Lists Available Commands',
             'load_graph=Path                Load Graph from path',
+            '   --graph-show                    Displays Graph'
             'load_solution=Path             Load Solution from path',
             '   --solution-plotHistory          Plots Matlab History',
             '   --solution-bestGraph            Prints Best Graph',
@@ -56,6 +57,12 @@ class CommandHandler():
         except (FileNotFoundError):
             print('Couldnt load a file - typo? | file: {}'.format(path))
 
+    def showGraph(self):
+        if(self.graph == None):
+            print('setup graph before displaying it')
+        else:
+            plotGraph(self.graph)
+
     def loadSolution(self, path):
         # Load Solution from File
         self.solution = loadSolution(path)
@@ -73,7 +80,6 @@ class CommandHandler():
                 self.solver = TabuSolver(self.graph, tabuSize, iterations)
             elif(solver == 'Tabu'):
                 self.solver = TabuSolver(self.graph)
-
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():

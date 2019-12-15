@@ -29,6 +29,9 @@ for arg in sys.argv:
         path = arg[11:]
         handler.loadGraph(path)
 
+    if('--graph-show' in arg):
+        handler.showGraph()
+
     if(re.search('load_solution=*', arg)):
         solution = arg[14:]
         handler.loadSolution(path)
