@@ -26,18 +26,18 @@ class TabuSolver():
             # Tabu
             # Check all near neighbours
             for neighbourMask in neighbourMasks:
-                applyMask(graph, neighbourMask)
+                graph.applyMask(neighbourMask)
                 score = goalFunction(graph)
-                applyMask(graph, bestMask)
+                graph.applyMask(bestMask)
                 bestMaskScore = goalFunction(graph)
                 # If there is a better neighbour than current solution update it
                 if(neighbourMask not in tabuList and score<bestMaskScore):
                     bestMask = neighbourMask
             # If better solution was found than initial solution
             # Update it
-            if(goalFunction(applyMask(graph,bestMask))<goalFunction(applyMask(graph,self.mask))): 
+            if(goalFunction(graph.applyMask(bestMask))<goalFunction(graph.applyMask(self.mask))): 
                 self.mask = bestMask
-                self.history.append(goalFunction(applyMask(graph, self.mask))) #ugly
+                self.history.append(goalFunction(graph.applyMask(self.mask))) #ugly
             # Add best previous solution search to tabu list
             tabuList.append(bestMask)
 

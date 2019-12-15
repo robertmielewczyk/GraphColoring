@@ -93,6 +93,11 @@ class Graph:
     def getNodeConnections(self, node):
         return self.nodes.get(node).getConnections()
 
+    def applyMask(self, mask):
+        for node in range(self.numberOfNodes):
+            self.changeNodeColor(node, mask[node])
+        return self
+
     #----------#
     # Debuging #
     #----------#

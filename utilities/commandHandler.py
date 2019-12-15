@@ -76,7 +76,7 @@ class CommandHandler():
 
             else:
                 print('This Solver Doesnt Exist - Typo')
-        except (AttributeError):
+        except ():
             print("Solver Error - Probably Graph is not set | graph: {}".format(self.graph))
 
     def solverPlotHistory(self):
