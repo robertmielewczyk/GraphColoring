@@ -67,6 +67,9 @@ for arg in sys.argv:
         if('--experiment-display' in arg):
             handler.displayExperiment()
             continue
+        if('--experiment-plot' in arg):
+            handler.plotExperiment()
+            continue
         print('EXPERIMENTS:\n--Set Parameters--\nIterations:')
         iterations = input()
         iterations = int(iterations)

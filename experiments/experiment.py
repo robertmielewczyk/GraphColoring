@@ -5,6 +5,7 @@ from algorithms.tabuSolver import *
 class Experiment():
     def __init__(self, iterations, size, solver):
         self.statistics = []
+        self.rowData = []
         self.run(iterations, size, solver)
     
     def run(self, iterations, size, pickSolver):
@@ -42,6 +43,7 @@ class Experiment():
             avgScore, avgTime = avgScore/iterations, avgTime/iterations
             row = '{} {} {} {}'.format(solver.type, size, avgTime, avgScore)
             self.statistics.append(row)
+            self.rowData.append([solver.type, size, avgScore, avgTime])
 
     def saveStatistics(self, file):
         f= open(file,"w+")
@@ -53,3 +55,18 @@ class Experiment():
     def displayStatistics(self):
         for row in self.statistics:
             print(row)
+
+    def plotStatistics(self):
+        import matplotlib.pyplot as plt
+        size, avgScore, avgTime = [], [], []
+        for row in range(len(self.rowData)):
+            size.append(self.rowData[row][1])
+            avgScore.append(self.rowData[row][2])
+            avgTime.append(self.rowData[row][3])
+        #Plot size-score/time
+        plt.title('my plot')
+        plt.plot(size, avgScore, color='green')
+        plt.xlabel('size')
+        plt.plot(size, avgTime,color='blue')
+        plt.legend({'avg.Score','avg.Time'})
+        plt.show()

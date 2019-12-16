@@ -48,7 +48,10 @@ class CommandHandler():
             '   --solver-bestGraph              Prints Best Graph',
             '   --solver-score                  Prints Best Score',   
             '   --solver-save=Name              Saves solution',
-            ' '
+            '--experiment                   Runs Experiment',
+            '   --experiment-save=file          Saves experiment to a file',
+            '   --experiment-display            displays experiment',
+            '   --experiment-plot               displays plot'
             ]
         for command in commands:
             print(command)
@@ -120,6 +123,9 @@ class CommandHandler():
 
     def displayExperiment(self):
         self.experiment.displayStatistics()
+
+    def plotExperiment(self):
+        self.experiment.plotStatistics()
 
 
 
