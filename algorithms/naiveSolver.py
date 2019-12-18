@@ -3,16 +3,15 @@ from utilities.arrayFunctions import *
 from utilities.timer import *
 from graphStructure.graph import *
 from utilities.graphFunctions import *
+from algorithms.algorithm import Algorithm
 import time
-class NaiveSolver():
+class NaiveSolver(Algorithm):
     def __init__(self, graph):
+        super().__init__()
         self.type = 'Naive'
-        self.history = []
-        self.bestGraph = Graph()
-        self.score = 999999 
-        self.__run(graph)
+        self.run(graph)
 
-    def __run(self, graph):
+    def run(self, graph):
         import copy
         start = time.time()
         '''
@@ -41,12 +40,6 @@ class NaiveSolver():
 
         end = time.time()
         self.time = end - start
-
-    def saveToFile(self, path):
-        import pickle
-        with open(path, 'wb') as solution:
-            pickle.dump(self, solution)
-
 
 def calculateFullPropagation(graph):
     end = 0

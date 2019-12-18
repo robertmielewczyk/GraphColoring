@@ -33,8 +33,17 @@ for arg in sys.argv:
         handler.showGraph()
 
     if(re.search('load_solution=*', arg)):
-        solution = arg[14:]
+        path = arg[14:]
         handler.loadSolution(path)
+
+    if('--solution-score' in arg):
+        handler.solutionScore()
+
+    if('--solution-graph' in arg):
+        handler.solutionBestGraph()
+
+    if('--solution-history' in arg):
+        handler.solutionHistory()
 
     if('solver=' in arg):
         if('solver=Tabu['):

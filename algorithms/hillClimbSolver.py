@@ -2,15 +2,14 @@ from utilities.graphFunctions import *
 from utilities.arrayFunctions import *
 from utilities.timer import *
 from algorithms.goalFunction import *
+from algorithms.algorithm import Algorithm
 from graphStructure.graph import *
 import copy
 import time
-class HillClimbSolver():
+class HillClimbSolver(Algorithm):
     def __init__(self, graph):
+        super().__init__()
         self.type = 'HillClimb'
-        self.history = []
-        self.bestGraph = Graph()
-        self.score = 999999
         self.mask = generateRandomMask(graph)
         self.run(graph, self.mask)
 
@@ -32,9 +31,9 @@ class HillClimbSolver():
         end = time.time()
         self.time = end - start
 
-    def saveToFile(self, path):
-        import pickle
-        with open(path, 'wb') as solution:
-            pickle.dump(self, solution)
+    # def saveToFile(self, path):
+    #     import pickle
+    #     with open(path, 'wb') as solution:
+    #         pickle.dump(self, solution)
 
 

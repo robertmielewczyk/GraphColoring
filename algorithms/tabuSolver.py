@@ -3,14 +3,13 @@ from utilities.arrayFunctions import *
 from utilities.timer import *
 from algorithms.goalFunction import *
 from graphStructure.graph import *
+from algorithms.algorithm import Algorithm
 import copy
 import time
-class TabuSolver():
+class TabuSolver(Algorithm):
     def __init__(self, graph, tabuSize=5, iterations=1000):
+        super().__init__()
         self.type = 'Tabu'
-        self.history = []
-        self.bestGraph = Graph()
-        self.score = 999999
         self.mask = generateRandomMask(graph)
         self.run(graph, tabuSize, iterations)
 
@@ -55,10 +54,3 @@ class TabuSolver():
 
         end = time.time()
         self.time = end - start
-
-
-                
-    def saveToFile(self, path):
-        import pickle
-        with open(path, 'wb') as solution:
-            pickle.dump(self, solution)

@@ -72,6 +72,15 @@ class CommandHandler():
         # Load Solution from File
         self.solution = loadSolution(path)
 
+    def solutionScore(self):
+        print(self.solution.score)
+
+    def solutionBestGraph(self):
+        print(self.solution.bestGraph)
+
+    def solutionHistory(self):
+        print(self.solution.history)
+
     def loadSolver(self, solver):
         try:
             if(solver == 'Naive'):
@@ -113,7 +122,7 @@ class CommandHandler():
         if(self.solver == None):
             print('couldnt save solver: solver is not defined')
         else:
-            self.solverSave(name)
+            self.solver.saveToFile(name)
 
     def performExperiment(self, iterations, size, solver):
         self.experiment = Experiment(iterations, size, solver)
