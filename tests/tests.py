@@ -1,6 +1,9 @@
 import pytest
 from graphStructure.graph import Graph
-from algorithms import *
+from algorithms.naiveSolver import NaiveSolver
+from algorithms.hillClimbSolver import HillClimbSolver
+from algorithms.tabuSolver import TabuSolver
+
 def test_graph():
     # Load Graph
     path = 'exampleGraphs/exampleGraph.yaml'
