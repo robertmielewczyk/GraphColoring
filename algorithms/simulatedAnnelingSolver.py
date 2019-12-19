@@ -12,7 +12,7 @@ class SimulatedAnnelingSolver(Algorithm):
     def __init__(self, graph, temperature=20, coolingRate=0.003, iterations=1000):
         super().__init__()
         self.type = 'SimulatedAnneling'
-        self.mask = generateRandomMask(graph)
+        self.mask = self.generateRandomMask(graph)
         self.run(graph, tabuSize, iterations)
 
     def run(self, graph, temperature):

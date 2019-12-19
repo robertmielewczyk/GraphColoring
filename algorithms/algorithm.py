@@ -14,3 +14,9 @@ class Algorithm(ABC):
         import pickle
         with open(path, 'wb') as solution:
             pickle.dump(self, solution)
+
+    def generateRandomMask(self, graph):
+        import random
+        maxColors = graph.numberOfNodes-1
+        mask = [random.randint(0, maxColors) for i in range(graph.numberOfNodes)]
+        return mask

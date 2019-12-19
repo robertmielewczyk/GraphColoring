@@ -10,7 +10,7 @@ class HillClimbSolver(Algorithm):
     def __init__(self, graph):
         super().__init__()
         self.type = 'HillClimb'
-        self.mask = generateRandomMask(graph)
+        self.mask = self.generateRandomMask(graph)
         self.run(graph, self.mask)
 
     def run(self, graph, mask):
@@ -21,7 +21,7 @@ class HillClimbSolver(Algorithm):
 
         # Apply Mask Check Score
         for mask in neighbourSet:
-            graph = applyMask(graph, mask)
+            graph.applyMask(mask)
             newScore = goalFunction(graph)
             if(newScore<self.score):
                 self.bestGraph, self.score = copy.deepcopy(graph), newScore

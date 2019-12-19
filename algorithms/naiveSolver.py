@@ -30,7 +30,7 @@ class NaiveSolver(Algorithm):
             if(count > end):
                 break
             # Apply mask [0,0,0,...,0] then [0,0,0,...,1] ... [5,5,...,(colorLimit)]
-            graph = applyMask(graph, i)
+            graph.applyMask(i)
 
             # Check score for this graph
             score = goalFunction(graph)

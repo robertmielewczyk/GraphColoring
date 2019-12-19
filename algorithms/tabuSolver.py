@@ -10,7 +10,7 @@ class TabuSolver(Algorithm):
     def __init__(self, graph, tabuSize=5, iterations=1000):
         super().__init__()
         self.type = 'Tabu'
-        self.mask = generateRandomMask(graph)
+        self.mask = self.generateRandomMask(graph)
         self.run(graph, tabuSize, iterations)
 
     def run(self, graph, tabuSize, iterations):
@@ -49,7 +49,7 @@ class TabuSolver(Algorithm):
                 del tabuList[0]
 
         #self.mask is the best output
-        self.bestGraph = applyMask(graph, self.mask)
+        self.bestGraph = graph.applyMask(self.mask)
         self.score = goalFunction(self.bestGraph)
 
         end = time.time()
