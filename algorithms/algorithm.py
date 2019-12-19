@@ -20,3 +20,11 @@ class Algorithm(ABC):
         maxColors = graph.numberOfNodes-1
         mask = [random.randint(0, maxColors) for i in range(graph.numberOfNodes)]
         return mask
+
+    def plotHistory(self):
+        # Plot History
+        import matplotlib.pyplot as plt
+        plt.plot(self.history)
+        plt.ylabel('score')
+        plt.xlabel('sample')
+        plt.show()

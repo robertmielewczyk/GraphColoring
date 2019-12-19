@@ -23,5 +23,8 @@ def test_algorithms():
     # Test Tabu
     solver = TabuSolver(graph)
 
+def test_experiments():
+    pass
+
 
 

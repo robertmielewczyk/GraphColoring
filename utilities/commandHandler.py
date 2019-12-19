@@ -3,7 +3,6 @@ from utilities.graphFunctions import *
 from algorithms.naiveSolver import NaiveSolver
 from algorithms.hillClimbSolver import HillClimbSolver
 from algorithms.tabuSolver import TabuSolver
-from debugging.algorithmPlot import *
 from experiments.experiment import *
 class CommandHandler():
     def __init__(self):
@@ -103,7 +102,7 @@ class CommandHandler():
         if(self.solver == None):
             print('couldnt show history: solver is not defined')
         else:
-            plotHistory(self.solver.history)
+            self.solver.plotHistory()
 
     def solverBestGraph(self):
         if(self.solver == None):
