@@ -7,26 +7,53 @@ from utilities.graphFunctions import *
 from utilities.arrayFunctions import *
 from algorithms.algorithm import Algorithm
 import copy
+import math
 import time
 class SimulatedAnnelingSolver(Algorithm):
-    def __init__(self, graph, temperature=20, coolingRate=0.003, iterations=1000):
+    def __init__(self, graph, temperature=600, coolingRate=0.95, iterations=50, minTemperature=5):
         super().__init__()
         self.type = 'SimulatedAnneling'
         self.mask = self.generateRandomMask(graph)
-        self.run(graph, tabuSize, iterations)
+        self.run(graph, temperature, coolingRate, minTemperature, iterations)
 
-    def run(self, graph, temperature):
-        # Initialize
-        graph = graph.applyMask(self.mask)
-        worse = []
-
-        # Loop until it's too cold
-        while(temperature>1):
+    def run(self, graph, temperature, coolingRate, minTemperature, iterations):
+        iteracion = 0
+        while(temperature>minTemperature):
+            iteracion +=1
+            print("Temperature: {}/{}".format(int(temperature), minTemperature))
             for i in range(iterations):
-                #Check solution
-                if(goalFunction(graph)>goalFunction(self.bestGraph)):
-                    self.bestGraph = graph
-                newMask = generateNeigboursSet(graph, self.mask)
-                #probability = pow(,)
+                newMask = self.neighbour(graph, self.mask)
+                graph.applyMask(newMask)
+                newScore = goalFunction(graph)
+
+                if(newScore<self.score):
+                    self.mask = newMask
+                    self.score = newScore
+                    self.bestGraph = copy.deepcopy(graph)
+                    self.history.append(self.score)
+
+                #Simulated annealing prob
+                if(random.random()<self.prob(temperature, self.score, newScore)):
+                    self.mask = newMask
+
+            #Lower Temperature
+            temperature *= coolingRate 
+
+
+    def neighbour(self, graph, mask):
+        '''/* Different neighbor selection strategies: 
+        * Move all points 0 or 1 units in a random direction 
+        * Shift input elements randomly 
+        * Swap random elements in input sequence 
+        * Permute input sequence 
+        * Partition input sequence into a random number 
+          of segments and permute segments   */
+        '''
+        neighbour_set = generateNeigboursSet(graph, mask)
+        return neighbour_set[random.randrange(0,len(neighbour_set)-1)]
+
+    def prob(self, temperature, score, newScore):
+        return math.exp(-(score-newScore)/temperature)
+
 
 

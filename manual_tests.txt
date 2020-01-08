@@ -1,0 +1,12 @@
+(load: bigExample, plotHistory, display best graph, display score)
+test naive algorithm: 
+python3 MetaAlgorithms.py load_graph=exampleGraphs/bigExampleGraph.yaml solver=Naive --solver-plotHistory --solver-bestGraph --solver-score
+
+Test HillClimb algorithm: 
+python3 MetaAlgorithms.py load_graph=exampleGraphs/bigExampleGraph.yaml solver=HillClimb --solver-plotHistory --solver-bestGraph --solver-score
+
+Test Tabu algorithm:
+python3 MetaAlgorithms.py load_graph=exampleGraphs/bigExampleGraph.yaml solver=HillClimb --solver-plotHistory --solver-bestGraph --solver-score
+
+Test SimulatedAnnealing:
+python3 MetaAlgorithms.py load_graph=exampleGraphs/graph6.yaml solver=SimulatedAnneling --solver-score --solver-plotHistory --solver-bestGraph

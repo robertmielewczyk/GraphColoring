@@ -3,6 +3,7 @@ from utilities.graphFunctions import *
 from algorithms.naiveSolver import NaiveSolver
 from algorithms.hillClimbSolver import HillClimbSolver
 from algorithms.tabuSolver import TabuSolver
+from algorithms.simulatedAnnelingSolver import SimulatedAnnelingSolver
 from experiments.experiment import *
 class CommandHandler():
     def __init__(self):
@@ -92,6 +93,8 @@ class CommandHandler():
                 self.solver = TabuSolver(self.graph, tabuSize, iterations)
             elif(solver == 'Tabu'):
                 self.solver = TabuSolver(self.graph)
+            elif(solver == 'SimulatedAnneling'):
+                self.solver = SimulatedAnnelingSolver(self.graph)
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():

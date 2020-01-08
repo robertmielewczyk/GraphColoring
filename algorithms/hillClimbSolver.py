@@ -31,9 +31,5 @@ class HillClimbSolver(Algorithm):
         end = time.time()
         self.time = end - start
 
-    # def saveToFile(self, path):
-    #     import pickle
-    #     with open(path, 'wb') as solution:
-    #         pickle.dump(self, solution)
 
 
