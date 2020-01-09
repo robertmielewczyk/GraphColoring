@@ -2,8 +2,10 @@ from graphStructure.graph import Graph
 from utilities.graphFunctions import *
 from algorithms.naiveSolver import NaiveSolver
 from algorithms.hillClimbSolver import HillClimbSolver
+from algorithms.HillClimbShallowSolver import HillClimbShallowSolver
 from algorithms.tabuSolver import TabuSolver
 from algorithms.simulatedAnnelingSolver import SimulatedAnnelingSolver
+from algorithms.geneticSolver import GeneticSolver
 from experiments.experiment import *
 class CommandHandler():
     def __init__(self):
@@ -42,7 +44,7 @@ class CommandHandler():
             '   --solution-plotHistory          Plots Matlab History',
             '   --solution-bestGraph            Prints Best Graph',
             '   --solution-score                Prints Best Score',
-            'solver=Name[size][iter]        Run Solver(Naive, HillClimb, Tabu)',
+            'solver=Name[size][iter]        Run Solver(Naive, HillClimb[Shallow], Tabu, SimulatedAnneling, Genetic)',
             '   --solver-plotHistory            Plots Matlab History',
             '   --solver-bestGraph              Prints Best Graph',
             '   --solver-score                  Prints Best Score',   
@@ -86,6 +88,9 @@ class CommandHandler():
                 self.solver = NaiveSolver(self.graph)
             elif(solver == 'HillClimb'):
                 self.solver = HillClimbSolver(self.graph)
+            elif(solver == "HillClimbShallow"):
+                iterations = int(input("How many iterations: "))
+                self.solver = HillClimbShallowSolver(self.graph, iterations)
             elif('Tabu[' in solver):
                 solver = (solver[5:].replace(']','')).split(',')
                 tabuSize = int(solver[0])
@@ -95,6 +100,14 @@ class CommandHandler():
                 self.solver = TabuSolver(self.graph)
             elif(solver == 'SimulatedAnneling'):
                 self.solver = SimulatedAnnelingSolver(self.graph)
+            elif(solver == 'Genetic'):
+                population = int(input("Population: "))
+                if(population>999999 or population<4):
+                    population = 10
+                generations = int(input("generataion: "))
+                if(generations>999999 or generations<4):
+                    generations = 10
+                self.solver = GeneticSolver(self.graph, population, generations=generations)
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():
