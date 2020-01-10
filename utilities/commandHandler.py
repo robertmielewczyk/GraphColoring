@@ -107,7 +107,17 @@ class CommandHandler():
                 generations = int(input("generataion: "))
                 if(generations>999999 or generations<4):
                     generations = 10
-                self.solver = GeneticSolver(self.graph, population, generations=generations)
+                avg_tresh = int(input("Score to achive: "))
+                if(avg_tresh>300 or avg_tresh<1):
+                    avg_tresh=30
+                roulete = input("Roulete true? yes/no")
+                if(roulete=="yes"):
+                    roulete = True
+                    tournament = False
+                else:
+                    roulete = False
+                    tournament = True
+                self.solver = GeneticSolver(self.graph, population, generations=generations, avg_score_treshold=avg_tresh, roulete=roulete, tournament=tournament)
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():

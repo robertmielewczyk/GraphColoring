@@ -27,6 +27,7 @@ class NaiveSolver(Algorithm):
 
         # Evaluate graph
         for count, i in iter(enumerate(product(mask, repeat=graph.numberOfNodes))):
+            print("iter: {}/{}".format(count, end))
             if(count > end):
                 break
             # Apply mask [0,0,0,...,0] then [0,0,0,...,1] ... [5,5,...,(colorLimit)]
