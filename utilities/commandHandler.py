@@ -110,6 +110,7 @@ class CommandHandler():
                 params['deviation_tresh'] = input_validator.range(0.1, 500, default=10, message="Deviation_tresh: ")
                 params['succesion'] = input_validator.exact_string(['Tournament','Roulette'], message="Succesion (Tournament/Roulette)")
                 params['termination'] = input_validator.exact_string(['Iter','Score', 'Deviation'], message="Select termination condition: Iter/Score/Deviation: ")
+                params['cross'] = input_validator.exact_string(['Single', 'Two'], message="Select Crossover method: Single/Two: ")
                 params['cross_prob'] = input_validator.range(0.1, 1, default=1, message="Cross_Probability(0.1, 1): ", floating=True)
                 params['mutation_prob'] = input_validator.range(0.1, 1, default=1, message="Mutation_Probability(0.1, 1): ", floating=True)
                 self.solver = GeneticSolver(self.graph, params)

@@ -27,7 +27,7 @@ class GeneticSolver(Algorithm):
 
             # Generate crossover
             if(params['cross_prob']>random.random()):
-                children = self.ga.cross(population, parents)
+                children = self.ga.cross_method(population, parents)
                 if(params['mutation_prob']>random.random()):
                     # Generate Mutations
                     children_mutations = self.ga.mutation(population, children)
@@ -92,7 +92,9 @@ class GeneticAlgorithm():
         self.avg_tresh = params['avg_tresh']
         self.deviation_tresh = params['deviation_tresh']
         self.generations = params['generations']
+        self.cross = params['cross']
         self.termination_method_count =0
+#region METHOD_BUILDERS
 
     def succesion_method(self, population, graph, best_percentage=0.3):
         fitness_list = self.evaluate_fitness(graph, population)
@@ -111,6 +113,14 @@ class GeneticAlgorithm():
             t_condition = self.deviation_tresh <deviation
         self.termination_method_count+=1
         return t_condition, avg_score, deviation
+
+    def cross_method(self, population, parent):
+        if(self.cross == "Single"):
+            return self.single_point_cross(population, parent)
+        elif(self.cross == "Two"):
+            return self.two_point_cross(population, parent)
+
+#endregion
 
     def calculate_standard_deviation(self, graph, population):
         import math
@@ -134,8 +144,9 @@ class GeneticAlgorithm():
         population.append(parents[0][1])
         population.append(parents[1][1])
         return parents
+#region CROSS_METHODS
 
-    def cross(self, population, parents):
+    def single_point_cross(self, population, parents):
         '''
         Creates children based of their parents
         Parent1 -> [1011], Parent2 -> [0011]  
@@ -154,6 +165,38 @@ class GeneticAlgorithm():
         population.extend(children)
         return children
 
+    def two_point_cross(self, population, parents):
+        '''
+        Creates children based of their parents
+        Parent1 -> [10111], Parent2 -> [00110]  
+        Children -> [Parent1(1bit)xParent2(3bit)xParent1(1bit)] , Children2 -> [Parent2(3bit)xParent1(1bit)Parent2(1bit)]
+        '''
+        child1 = [] 
+        child2 = []
+        cross_points = []
+
+        # Generate Cross Points
+        choices = [i for i in range(len(parents[0][1])-1)]
+        random.shuffle(choices)
+        cross_points.append(choices[0]), cross_points.append(choices[1])
+        cross_points.sort()
+
+        # Generate Partials
+        print(cross_points)
+        chromosomeX = [parents[0][1][i] for i in range(0, cross_points[0])]        
+        chromosomeY = [parents[1][1][i] for i in range(cross_points[0], cross_points[1])]
+        chromosomeZ = [parents[0][1][i] for i in range(cross_points[1], len(parents[0][1]))]
+
+        # Apply Cross Rule to children
+        child1.extend(chromosomeX), child1.extend(chromosomeY), child1.extend(chromosomeZ)
+        child2.extend(chromosomeY), child2.extend(chromosomeX), child2.extend(chromosomeZ)
+
+        # Add them to population
+        children = []
+        children.append(child1), children.append(child2)
+        population.extend(children)
+        return children
+#endregion
 
     def mutation(self, population, children):
         '''
