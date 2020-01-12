@@ -1,4 +1,6 @@
 import pytest
+import sys
+sys.path.append('.')
 from graphStructure.graph import Graph
 from algorithms.naiveSolver import NaiveSolver
 from algorithms.hillClimbSolver import HillClimbSolver
