@@ -20,19 +20,19 @@ def test_algorithms():
 
     # Test Naive
     solver = NaiveSolver(graph)
-    assert(solver.score<graph.numberOfNodes)
+    assert(solver.score<=graph.numberOfNodes)
 
     # Test HillClimb
     solver = HillClimbSolver(graph)
-    assert(solver.score<graph.numberOfNodes*6)
+    assert(solver.score<=graph.numberOfNodes*6)
 
     # Test Tabu
     solver = TabuSolver(graph)
-    assert(solver.score<graph.numberOfNodes*6)
+    assert(solver.score<=graph.numberOfNodes*6)
 
     # Test Simulated Anneling
     solver = SimulatedAnnelingSolver(graph)
-    assert(solver.score<graph.numberOfNodes*6)
+    assert(solver.score<=graph.numberOfNodes*6)
 
     # Test Genetic Algorithm
     params = {}
