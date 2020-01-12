@@ -53,6 +53,7 @@ def test_algorithms():
     params['deviation_tresh'] = 10
     params['succesion'] = "Tournament"
     params['termination'] = "Iter"
+    params['cross'] = "Single"
     params['cross_prob'] = 1
     params['mutation_prob'] = 1
     solver = GeneticSolver(graph, params=params)
