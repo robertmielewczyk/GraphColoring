@@ -131,5 +131,5 @@ class Graph:
         #print(f"edges: {G.edges}")
         #print(f"displayed colors: { {n:c for n,c in zip(G.nodes, colorMap)} } -- If colors dont go in 1,2,3,4 then something is wrong")
         nx.draw_networkx(G, node_color = colorMap, with_labels = True, vmin=0, vmax=self.numberOfNodes)
-        plt.savefig("simple_path.png") # save as png
+        plt.savefig("graph_visualised.png") # save as png
         plt.show() # display

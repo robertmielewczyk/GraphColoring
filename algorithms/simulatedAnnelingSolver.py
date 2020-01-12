@@ -17,6 +17,7 @@ class SimulatedAnnelingSolver(Algorithm):
         self.run(graph, temperature, coolingRate, minTemperature, iterations)
 
     def run(self, graph, temperature, coolingRate, minTemperature, iterations):
+        start = time.time()
         iteracion = 0
         while(temperature>minTemperature):
             iteracion +=1
@@ -38,6 +39,8 @@ class SimulatedAnnelingSolver(Algorithm):
 
             #Lower Temperature
             temperature *= coolingRate 
+        end = time.time()
+        self.time = end - start
 
 
     def neighbour(self, graph, mask):

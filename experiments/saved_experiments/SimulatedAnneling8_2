@@ -1,0 +1,7 @@
+#Algorithm Size Avg.Time Avg.Score
+SimulatedAnneling 2 0.3279390335083008 2.0
+SimulatedAnneling 3 0.623409628868103 3.0
+SimulatedAnneling 4 1.2917912006378174 4.0
+SimulatedAnneling 5 2.466285228729248 4.0
+SimulatedAnneling 6 4.812365174293518 4.0
+SimulatedAnneling 7 10.056628346443176 4.0

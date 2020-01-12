@@ -54,3 +54,4 @@ class TabuSolver(Algorithm):
 
         end = time.time()
         self.time = end - start
+        print(self.time)

@@ -67,11 +67,15 @@ for arg in sys.argv:
         name = arg[14:]
         handler.solverSave(name)
 
+    if('--genetic-parameter-finder' in arg):
+        handler.geneticParameterFinder()
+        handler.plotGeneticFinder()
+
     if('--experiment' in arg):
         if('--experiment-save=' in arg):
             file = arg[18:]
             print(file)
-            handler.saveExperiment(file)
+            handler.saveExperiment("experiments/saved_experiments/{}".format(file))
             continue
         if('--experiment-display' in arg):
             handler.displayExperiment()
@@ -85,9 +89,9 @@ for arg in sys.argv:
         print("Size:")
         size= input()
         size = int(size)
-        if(size>9 or size<2):
+        if(size>50 or size<2):
             size=9
-        print("Solver: - must be: Naive/HillClimb/Tabu[TabuSize,Iterations]")
+        print("Solver: - must be: Naive/HillClimb/HillClimbShallowTabu[TabuSize,Iterations]/SimulatedAnneling/Genetic")
         solver = input()
         handler.performExperiment(iterations, size, solver)
 

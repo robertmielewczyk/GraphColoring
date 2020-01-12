@@ -7,6 +7,7 @@ from algorithms.tabuSolver import TabuSolver
 from algorithms.simulatedAnnelingSolver import SimulatedAnnelingSolver
 from algorithms.geneticSolver import GeneticSolver
 from experiments.experiment import *
+from experiments.geneticExperiment import GeneticParmeterFinder
 from libraries.validator import Validator
 class CommandHandler():
     def __init__(self):
@@ -14,6 +15,7 @@ class CommandHandler():
         self.solution = None
         self.solver = None
         self.experiment = None
+        self.finder = None
 
     def state(self):
         print('graph:    {}'.format(self.graph))
@@ -113,7 +115,7 @@ class CommandHandler():
                 params['cross'] = input_validator.exact_string(['Single', 'Two'], message="Select Crossover method: Single/Two: ")
                 params['cross_prob'] = input_validator.range(0.1, 1, default=1, message="Cross_Probability(0.1, 1): ", floating=True)
                 params['mutation_prob'] = input_validator.range(0.1, 1, default=1, message="Mutation_Probability(0.1, 1): ", floating=True)
-                self.solver = GeneticSolver(self.graph, params)
+                self.solver = GeneticSolver(self.graph, params, debug=True)
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():
@@ -143,6 +145,33 @@ class CommandHandler():
             print('couldnt save solver: solver is not defined')
         else:
             self.solver.saveToFile(name)
+
+    def geneticParameterFinder(self):
+        try:
+            self.finder = GeneticParmeterFinder(self.graph)
+        except ():
+            print("Finder Error - Probably Graph is not set | graph: {}".format(self.graph))
+
+    def plotGeneticFinder(self):
+        import matplotlib.pyplot as plt
+        length = len(self.finder.history)
+        iterations = [self.finder.history[i]['iteration'] for i in range(length)]
+        solver_score = [self.finder.history[i]['solver_score'] for i in range(length)]
+        solver_time = [self.finder.history[i]['solver_score'] for i in range(length)]
+
+        #Plot iteration - Score/time
+        plt.figure()
+        plt.title('Time/Score')
+        plt.subplot(211)
+        plt.plot(iterations, solver_score , color='green', marker='+', lineWidth=0.1)
+        plt.xlabel('Iteration')
+        plt.legend('Score')
+
+        plt.subplot(212)
+        plt.plot(iterations, solver_time, color='blue', marker='.', lineWidth=0.1)
+        plt.xlabel('Iteration')
+        plt.legend('Time')
+        plt.show()
 
     def performExperiment(self, iterations, size, solver):
         self.experiment = Experiment(iterations, size, solver)

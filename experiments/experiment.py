@@ -1,7 +1,11 @@
 from algorithms.goalFunction import *
 from algorithms.hillClimbSolver import *
+from algorithms.HillClimbShallowSolver import HillClimbShallowSolver
 from algorithms.naiveSolver import *
 from algorithms.tabuSolver import *
+from algorithms.simulatedAnnelingSolver import *
+from algorithms.geneticSolver import GeneticSolver
+from libraries.validator import Validator
 class Experiment():
     def __init__(self, iterations, size, solver):
         self.statistics = []
@@ -11,7 +15,9 @@ class Experiment():
     def run(self, iterations, size, pickSolver):
         # Add first row in statistics
         row = "#Algorithm Size Avg.Time Avg.Score"
+        input_validator = Validator()
         self.statistics.append(row)
+        self.params = None
 
         #Perform experiments for the entire set of graphs - from size 2-size
         for size in range(2,size):
@@ -27,11 +33,19 @@ class Experiment():
                     solver = NaiveSolver(graph)
                 elif(pickSolver == 'HillClimb'):
                     solver = HillClimbSolver(graph)
+                elif(pickSolver == 'HillClimbShallow'):
+                    iterations = input_validator.range(1, 99999, message="Iterations", default=10)
+                    solver = HillClimbShallowSolver(graph, iterations)
                 elif('Tabu[' in pickSolver):
                     solver = (pickSolver[5:].replace(']','')).split(',')
                     tabuSize = int(solver[0])
                     iterations = int(solver[1])
                     solver = TabuSolver(graph, tabuSize, iterations)
+                elif('SimulatedAnneling' in pickSolver):
+                    solver = SimulatedAnnelingSolver(graph)
+                elif('Genetic' in pickSolver):
+                    self.set_params()
+                    solver = GeneticSolver(graph, self.params)
                 else:
                     break
 
@@ -44,6 +58,22 @@ class Experiment():
             row = '{} {} {} {}'.format(solver.type, size, avgTime, avgScore)
             self.statistics.append(row)
             self.rowData.append([solver.type, size, avgScore, avgTime])
+    def set_params(self):
+        input_validator = Validator()
+        if(self.params == None):
+            print("Set params - for the best results run ParameterFinder first")
+            params = {}
+            params['population'] = input_validator.range(4, 999999, default=10, message="Population: ") 
+            params['generations'] = input_validator.range(4, 999999, default=10, message="Generations: ")
+            params['avg_tresh'] = input_validator.range(4, 500, default=10, message="Avg_tresh: ")
+            params['deviation_tresh'] = input_validator.range(0.1, 500, default=10, message="Deviation_tresh: ")
+            params['succesion'] = input_validator.exact_string(['Tournament','Roulette'], message="Succesion (Tournament/Roulette)")
+            params['termination'] = input_validator.exact_string(['Iter','Score', 'Deviation'], message="Select termination condition: Iter/Score/Deviation: ")
+            params['cross'] = input_validator.exact_string(['Single', 'Two'], message="Select Crossover method: Single/Two: ")
+            params['cross_prob'] = input_validator.range(0.1, 1, default=1, message="Cross_Probability(0.1, 1): ", floating=True)
+            params['mutation_prob'] = input_validator.range(0.1, 1, default=1, message="Mutation_Probability(0.1, 1): ", floating=True)
+            self.params = params
+
 
     def saveStatistics(self, file):
         f= open(file,"w+")

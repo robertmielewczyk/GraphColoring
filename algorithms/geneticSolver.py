@@ -6,16 +6,18 @@ import numpy as np
 import random
 import math
 import copy
+import time
 class GeneticSolver(Algorithm):
-    def __init__(self, graph, params, num_parents=2):
+    def __init__(self, graph, params, num_parents=2, debug=False):
         super().__init__()
         population = [self.generateRandomMask(graph) for i in range(params['population'])]
         self.debug = GeneticDebug(params)
         self.ga = GeneticAlgorithm(params)
         self.type = 'Genetic'
-        self.run(graph,population, params, num_parents)
+        self.run(graph,population, params, num_parents,debug)
 
-    def run(self,graph, population, params, num_parents):
+    def run(self,graph, population, params, num_parents,debug):
+        start = time.time()
         population = [self.generateRandomMask(graph) for i in range(params['population'])]
         t_condition, avg_score, deviation = self.ga.termination_method(graph ,population)
         while(t_condition):
@@ -48,8 +50,11 @@ class GeneticSolver(Algorithm):
                 self.score = goalFunction(self.bestGraph)
 
             # Debug
-            self.debug.show_iterations(avg_score, deviation)
-            #self.debug.show_parent_children(parents, children, children_mutations, graph)
+            if(debug):
+                self.debug.show_iterations(avg_score, deviation)
+                #self.debug.show_parent_children(parents, children, children_mutations, graph)
+        end = time.time()
+        self.time = end - start
 
 #region DEBUG_CLASS
 class GeneticDebug():
@@ -63,7 +68,7 @@ class GeneticDebug():
         self.cross_prob = params['cross_prob']
         self.mutation_prob = params['mutation_prob']
         self.generations_counter = 0
-        self.show_parameters()
+        #self.show_parameters()
 
     def show_parameters(self):
         print("\n--DEBUG--\nGenetic Algorithm Run With These Parameters:\
@@ -182,7 +187,7 @@ class GeneticAlgorithm():
         cross_points.sort()
 
         # Generate Partials
-        print(cross_points)
+        #print(cross_points)
         chromosomeX = [parents[0][1][i] for i in range(0, cross_points[0])]        
         chromosomeY = [parents[1][1][i] for i in range(cross_points[0], cross_points[1])]
         chromosomeZ = [parents[0][1][i] for i in range(cross_points[1], len(parents[0][1]))]
@@ -233,7 +238,7 @@ class GeneticAlgorithm():
              u=0.3
         cur_population = len(population)
         new_population = int(cur_population*u)
-        print("cur: {} new: {} u: {}".format(cur_population, new_population, u))
+        #print("cur: {} new: {} u: {}".format(cur_population, new_population, u))
         while(len(population)>new_population and len(fitness_list)>new_population and new_population>4):
             del population[np.argmax(fitness_list)]
             del fitness_list[np.argmax(fitness_list)]
