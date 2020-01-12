@@ -7,6 +7,7 @@ from algorithms.tabuSolver import TabuSolver
 from algorithms.simulatedAnnelingSolver import SimulatedAnnelingSolver
 from algorithms.geneticSolver import GeneticSolver
 from experiments.experiment import *
+from libraries.validator import Validator
 class CommandHandler():
     def __init__(self):
         self.graph = None
@@ -83,6 +84,7 @@ class CommandHandler():
         print(self.solution.history)
 
     def loadSolver(self, solver):
+        input_validator = Validator()
         try:
             if(solver == 'Naive'):
                 self.solver = NaiveSolver(self.graph)
@@ -101,23 +103,16 @@ class CommandHandler():
             elif(solver == 'SimulatedAnneling'):
                 self.solver = SimulatedAnnelingSolver(self.graph)
             elif(solver == 'Genetic'):
-                population = int(input("Population: "))
-                if(population>999999 or population<4):
-                    population = 10
-                generations = int(input("generataion: "))
-                if(generations>999999 or generations<4):
-                    generations = 10
-                avg_tresh = int(input("Score to achive: "))
-                if(avg_tresh>300 or avg_tresh<1):
-                    avg_tresh=30
-                roulete = input("Roulete true? yes/no")
-                if(roulete=="yes"):
-                    roulete = True
-                    tournament = False
-                else:
-                    roulete = False
-                    tournament = True
-                self.solver = GeneticSolver(self.graph, population, generations=generations, avg_score_treshold=avg_tresh, roulete=roulete, tournament=tournament)
+                params = {}
+                params['population'] = input_validator.range(4, 999999, default=10, message="Population: ") 
+                params['generations'] = input_validator.range(4, 999999, default=10, message="Generations: ")
+                params['avg_tresh'] = input_validator.range(4, 500, default=10, message="Avg_tresh: ")
+                params['deviation_tresh'] = input_validator.range(0.1, 500, default=10, message="Deviation_tresh: ")
+                params['succesion'] = input_validator.exact_string(['Tournament','Roulette'], message="Succesion (Tournament/Roulette)")
+                params['termination'] = input_validator.exact_string(['Iter','Score', 'Deviation'], message="Select termination condition: Iter/Score/Deviation: ")
+                params['cross_prob'] = input_validator.range(0.1, 1, default=1, message="Cross_Probability(0.1, 1): ")
+                params['mutation_prob'] = input_validator.range(0.1, 1, default=1, message="Mutation_Probability(0.1, 1): ")
+                self.solver = GeneticSolver(self.graph, params)
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():
@@ -159,6 +154,13 @@ class CommandHandler():
 
     def plotExperiment(self):
         self.experiment.plotStatistics()
+
+
+
+        
+
+
+
 
 
 
