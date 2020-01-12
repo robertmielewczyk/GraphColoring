@@ -60,13 +60,15 @@ class GeneticDebug():
         self.termination = params['termination']
         self.generations = params['generations']
         self.population = params['population']
+        self.cross_prob = params['cross_prob']
+        self.mutation_prob = params['mutation_prob']
         self.generations_counter = 0
         self.show_parameters()
 
     def show_parameters(self):
         print("\n--DEBUG--\nGenetic Algorithm Run With These Parameters:\
-               \nGenerations: {}\nPopulation: {}\nSuccesion: {}\nAvg_treshold: {}\nTermination: {}\nDeviation_Treshold: {}\
-                \n---------".format(self.generations, self.population, self.succesion, self.avg_tresh, self.termination, self.deviation_tresh))
+               \nGenerations: {}\nPopulation: {}\nSuccesion: {}\nAvg_treshold: {}\nTermination: {}\nDeviation_Treshold: {}\nCross Probability: {}\nMutation probability: {}\
+                \n---------".format(self.generations, self.population, self.succesion, self.avg_tresh, self.termination, self.deviation_tresh, self.cross_prob, self.mutation_prob))
 
     def show_iterations(self, avg_score, deviation):
         self.generations_counter+=1

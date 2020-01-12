@@ -2,19 +2,21 @@ class Validator():
     def __init__(self):
         pass
 
-    def range(self, ground, limit, default=0, message="", error_message="Wrong Value"):
+    def range(self, ground, limit, default=0, message="", error_message="Wrong Value", floating=False):
         '''
         Checks if value is in between given range
         '''
         try:
-            value = int(input(message))
+            value = float(input(message))
             while(value <ground or value>limit):
                 print("{} | Values has to be between [{}, {}]".format(error_message, ground, limit))
-                value = int(input(message))
-            return value
+                value = float(input(message))
+            if(floating):
+                return value
+            return int(value)
         except ValueError:
             print("DEFAULTS!!! {} | Values has to be between [{}, {}]".format(error_message, ground, limit))
-            return default
+            return int(default)
 
     def exact_string(self, values ,message="", error_message="Wrong Value"):
         '''
