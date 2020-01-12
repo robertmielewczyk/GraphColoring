@@ -65,10 +65,10 @@ class CommandHandler():
             print('Couldnt load a file - typo? | file: {}'.format(path))
 
     def showGraph(self):
-        if(self.graph == None):
-            print('setup graph before displaying it')
+        if(self.solver == None):
+            print('setup solver with graph before displaying it')
         else:
-            self.graph.plotGraph()
+            self.solver.bestGraph.plotGraph()
 
     def loadSolution(self, path):
         # Load Solution from File

@@ -112,18 +112,24 @@ class Graph:
         import networkx as nx
         import matplotlib.pyplot as plt
         G=nx.Graph()
+        #disitinct_colors = ['#d90000', '#d96500', '#d9ae00', '#b5d900', '#98d900', '#12d900', '#00d96d', '#00d9a6', '#00d9d2', '#00aed9'\
+        #,'#0091d9','#0074d9','#005ad9','#003ad9','#5000d9','#7000d9', '#9400d9', '#b500d9' ,'d900d9', '#d9005a']
 
         # Color map
-        colorMap = []
+        colorMap = [self.getNodeColor(i) for i in range(self.numberOfNodes)]
+        nodes = [i for i in range(self.numberOfNodes)]
 
         # Add nodes and edges
+        G.add_nodes_from(nodes)
         for i in range(self.numberOfNodes):
-            G.add_node(i)
-            colorMap.append(self.getNodeColor(i))
             for node in self.getNodeConnections(i):
                 G.add_edge(i, node)
+        
 
-        # Draw Graph
-        nx.draw(G, node_color = colorMap, with_labels = True)
+        # Draw Graph DEBUG
+        #print(f"nodes: {G.nodes}")
+        #print(f"edges: {G.edges}")
+        #print(f"displayed colors: { {n:c for n,c in zip(G.nodes, colorMap)} } -- If colors dont go in 1,2,3,4 then something is wrong")
+        nx.draw_networkx(G, node_color = colorMap, with_labels = True, vmin=0, vmax=self.numberOfNodes)
         plt.savefig("simple_path.png") # save as png
         plt.show() # display

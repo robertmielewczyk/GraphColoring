@@ -19,6 +19,7 @@ class HillClimbShallowSolver(Algorithm):
         for i in range(iterations):
             # Generate near neighbours +1 -1 (in future update with grasp)
             neighbourSet = generateNeigboursSet(graph, mask)
+            print("Generating Neighbours {}/{}".format(i,iterations))
             mask = neighbourSet[random.randrange(0,len(neighbourSet)-1)]
 
             # Apply Mask Check Score
