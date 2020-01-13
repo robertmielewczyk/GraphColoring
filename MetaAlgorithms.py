@@ -16,6 +16,7 @@ handler = CommandHandler()
 #-------------------#
 # Control Arguments #
 #-------------------#
+
 for arg in sys.argv:
     #Run in Build Mode
     if(arg == 'run'):
@@ -24,14 +25,16 @@ for arg in sys.argv:
     # Run Command Line
     if(arg == '--help'):
         handler.help()
-    
+
+#region GRAPH
     if(re.search('load_graph=*', arg)):
         path = arg[11:]
         handler.loadGraph(path)
 
     if('--graph-show' in arg):
         handler.showGraph()
-
+#endregion
+#region SOLUTION
     if(re.search('load_solution=*', arg)):
         path = arg[14:]
         handler.loadSolution(path)
@@ -44,7 +47,8 @@ for arg in sys.argv:
 
     if('--solution-history' in arg):
         handler.solutionHistory()
-
+#endregion
+#region SOLVER
     if('solver=' in arg):
         if('solver=Tabu['):
             solver = arg[7:]
@@ -66,7 +70,8 @@ for arg in sys.argv:
     if(re.search('--solver-save=*', arg)):
         name = arg[14:]
         handler.solverSave(name)
-
+#endregion
+#region EXPERIMENTS
     if('--genetic-parameter-finder' in arg):
         handler.geneticParameterFinder()
         handler.plotGeneticFinder()
@@ -95,7 +100,7 @@ for arg in sys.argv:
         solver = input()
         handler.performExperiment(iterations, size, solver)
 
-    
+#endregion
 
 
     

@@ -5,6 +5,7 @@ from algorithms.hillClimbSolver import HillClimbSolver
 from algorithms.HillClimbShallowSolver import HillClimbShallowSolver
 from algorithms.tabuSolver import TabuSolver
 from algorithms.simulatedAnnelingSolver import SimulatedAnnelingSolver
+from algorithms.geneticParallelSolver import GeneticParallelSolver
 from algorithms.geneticSolver import GeneticSolver
 from experiments.experiment import *
 from experiments.geneticExperiment import GeneticParmeterFinder
@@ -16,6 +17,8 @@ class CommandHandler():
         self.solver = None
         self.experiment = None
         self.finder = None
+
+#region ADDITIONAL_INIT
 
     def state(self):
         print('graph:    {}'.format(self.graph))
@@ -60,6 +63,8 @@ class CommandHandler():
         for command in commands:
             print(command)
 
+#endregion
+#region GRAPH
     def loadGraph(self, path):
         try:
             self.graph = Graph(path)
@@ -71,7 +76,8 @@ class CommandHandler():
             print('setup solver with graph before displaying it')
         else:
             self.solver.bestGraph.plotGraph()
-
+#endregion
+#region SOLUTION
     def loadSolution(self, path):
         # Load Solution from File
         self.solution = loadSolution(path)
@@ -84,7 +90,8 @@ class CommandHandler():
 
     def solutionHistory(self):
         print(self.solution.history)
-
+#endregion
+#region SOLVER
     def loadSolver(self, solver):
         input_validator = Validator()
         try:
@@ -116,6 +123,18 @@ class CommandHandler():
                 params['cross_prob'] = input_validator.range(0.1, 1, default=1, message="Cross_Probability(0.1, 1): ", floating=True)
                 params['mutation_prob'] = input_validator.range(0.1, 1, default=1, message="Mutation_Probability(0.1, 1): ", floating=True)
                 self.solver = GeneticSolver(self.graph, params, debug=True)
+            elif(solver == 'GeneticParallel'):
+                params = {}
+                params['population'] = input_validator.range(4, 999999, default=10, message="Population: ") 
+                params['generations'] = input_validator.range(4, 999999, default=10, message="Generations: ")
+                params['avg_tresh'] = input_validator.range(4, 500, default=10, message="Avg_tresh: ")
+                params['deviation_tresh'] = input_validator.range(0.1, 500, default=10, message="Deviation_tresh: ")
+                params['succesion'] = input_validator.exact_string(['Tournament','Roulette'], message="Succesion (Tournament/Roulette)")
+                params['termination'] = input_validator.exact_string(['Iter','Score', 'Deviation'], message="Select termination condition: Iter/Score/Deviation: ")
+                params['cross'] = input_validator.exact_string(['Single', 'Two'], message="Select Crossover method: Single/Two: ")
+                params['cross_prob'] = input_validator.range(0.1, 1, default=1, message="Cross_Probability(0.1, 1): ", floating=True)
+                params['mutation_prob'] = input_validator.range(0.1, 1, default=1, message="Mutation_Probability(0.1, 1): ", floating=True)
+                self.solver = GeneticParallelSolver(self.graph, params, debug=True)
             else:
                 print('This Solver Doesnt Exist - Typo')
         except ():
@@ -145,7 +164,8 @@ class CommandHandler():
             print('couldnt save solver: solver is not defined')
         else:
             self.solver.saveToFile(name)
-
+#endregion
+#region EXPERIMENTS
     def geneticParameterFinder(self):
         try:
             self.finder = GeneticParmeterFinder(self.graph)
@@ -184,6 +204,7 @@ class CommandHandler():
 
     def plotExperiment(self):
         self.experiment.plotStatistics()
+#endregion
 
 
 

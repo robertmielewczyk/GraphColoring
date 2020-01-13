@@ -5,6 +5,7 @@ from algorithms.naiveSolver import *
 from algorithms.tabuSolver import *
 from algorithms.simulatedAnnelingSolver import *
 from algorithms.geneticSolver import GeneticSolver
+from algorithms.geneticParallelSolver import GeneticParallelSolver
 from libraries.validator import Validator
 class Experiment():
     def __init__(self, iterations, size, solver):
@@ -46,6 +47,9 @@ class Experiment():
                 elif('Genetic' in pickSolver):
                     self.set_params()
                     solver = GeneticSolver(graph, self.params)
+                elif('GeneticParallel' in pickSolver):
+                    self.set_params()
+                    solver = GeneticParallelSolver(graph, self.params)
                 else:
                     break
 
