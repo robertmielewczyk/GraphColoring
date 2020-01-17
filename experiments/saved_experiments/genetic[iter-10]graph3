@@ -1,0 +1,13 @@
+Generations: 10
+Population: 9
+Succesion: Roulette
+Avg_treshold: 10
+Termination: Iter
+Deviation_Treshold: 10
+Cross Probability: 0.9999999999999999
+Mutation probability: 0.9999999999999999                
+
+Solver_score: 3
+Solver_time: 0.014492511749267578
+Iteration_discovered: 1
+---------

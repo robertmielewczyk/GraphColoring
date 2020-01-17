@@ -1,4 +1,5 @@
 import copy
+import random
 def hillClimbIncrease(graph, mask):
     #This monster suprisingly works, but refactor it later
     colorLimit = graph.numberOfNodes
@@ -21,6 +22,27 @@ def hillClimbIncrease(graph, mask):
 
     return increaseSet
 
+def SAIncrease(graph, mask):
+    #This monster suprisingly works, but refactor it later
+    colorLimit = graph.numberOfNodes
+    masks = generateIncreseDecreaseOne(graph)
+    increaseSet = []
+    for i in masks:
+        #create new mask which looks like mask
+        newMask = copy.deepcopy(mask)
+        for j in range(i):
+            #check from mask if you should increase the value
+            if(i==1):
+                #check if increasing wouldnt hit the limit if yes wrap around value
+                if((newMask[j]+1)==colorLimit):
+                    newMask[j]=0
+                #if value less than limit just increase
+                elif(newMask[j]+1<colorLimit):
+                    newMask[j]+=1
+        # Append newly created mask
+        increaseSet.append(newMask)
+
+    return increaseSet
 
 def hillClimbDecrease(graph, mask):
     #This monster suprisingly works, but refactor it later
@@ -44,6 +66,28 @@ def hillClimbDecrease(graph, mask):
 
     return decreaseSet
 
+def SADecrease(graph, mask):
+    #This monster suprisingly works, but refactor it later
+    colorLimit = graph.numberOfNodes
+    masks = generateInceraseDecreaseMasks(graph)
+    decreaseSet = []
+    for i in masks:
+        #create new mask which looks like mask
+        newMask = copy.deepcopy(mask)
+        for j in range(len(i)):
+            #check from mask if you should increase the value
+            if(i==1):
+                #check if decreasing wouldnt hit the limit if yes wrap around value
+                if((newMask[j]-1)<0):
+                    newMask[j]=colorLimit
+                #if value less than limit just increase
+                elif((newMask[j]-1)>=0):
+                    newMask[j]-=1
+        # Append newly created mask
+        decreaseSet.append(newMask)
+
+    return decreaseSet
+
 def generateInceraseDecreaseMasks(graph):
     '''
     generates a binary mask like [0,1,1] where 1 stands for do something, 0 for dont
@@ -54,6 +98,15 @@ def generateInceraseDecreaseMasks(graph):
     for i in product(colors, repeat=graph.numberOfNodes):
         masks.append(i)
     return masks
+
+def generateIncreseDecreaseOne(graph):
+    '''
+    Similar to generateIncreaseDecreseMasks but generates only one value
+    '''
+    masks = [0 for i in range(graph.numberOfNodes)]
+    masks[random.randrange(0,graph.numberOfNodes-1)] = 1
+    return masks
+
 
 
 def generateNeigboursSet(graph, mask):
@@ -66,6 +119,13 @@ def generateNeigboursSet(graph, mask):
     neighbourSet.extend(decreaseSet)
     neighbourSet.extend(increaseSet)
     return neighbourSet
+
+def generateNeighboursSetSA(graph, mask):
+    neighbourSet = []
+    increaseSet = SAIncrease(graph, mask)
+    neighbourSet.extend(increaseSet)
+    return neighbourSet
+    
 
 def baseIncrement(array, base):
         lastElement = len(array)
